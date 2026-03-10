@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rocket & Missile Fire Dashboard — Shomron</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.7/Recharts.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #08080d; font-family: system-ui, -apple-system, sans-serif; }
+    #root { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ComposedChart, Line } = Recharts;
+
+    const DAYS = 10;
+    const totalAlerts = 59;
+    const avgPerDay = (totalAlerts / DAYS).toFixed(1);
+
+    const counts = [13, 8, 3, 4, 3, 6, 4, 8, 5, 5];
+    const n = counts.length;
+    const xMean = (n - 1) / 2;
+    const yMean = totalAlerts / n;
+    const slope = counts.reduce((acc, y, i) => acc + (i - xMean) * (y - yMean), 0) /
+      counts.reduce((acc, _, i) => acc + (i - xMean) ** 2, 0);
+    const intercept = yMean - slope * xMean;
+
+    const RAW_ALERTS = [
+      { date: "28/02", fullDate: "28/02/2026", count: 13, day: "Sat" },
+      { date: "01/03", fullDate: "01/03/2026", count: 8, day: "Sun" },
+      { date: "02/03", fullDate: "02/03/2026", count: 3, day: "Mon" },
+      { date: "03/03", fullDate: "03/03/2026", count: 4, day: "Tue" },
+      { date: "04/03", fullDate: "04/03/2026", count: 3, day: "Wed" },
+      { date: "05/03", fullDate: "05/03/2026", count: 6, day: "Thu" },
+      { date: "06/03", fullDate: "06/03/2026", count: 4, day: "Fri" },
+      { date: "07/03", fullDate: "07/03/2026", count: 8, day: "Sat" },
+      { date: "08/03", fullDate: "08/03/2026", count: 5, day: "Sun" },
+      { date: "09/03", fullDate: "09/03/2026", count: 5, day: "Mon" },
+    ].map((d, i) => ({ ...d, trend: Math.round((intercept + slope * i) * 10) / 10 }));
+
+    const maxDay = RAW_ALERTS.reduce((a, b) => a.count > b.count ? a : b);
+
+    const TIME_SLOTS = [
+      { slot: "Night 00–06", label: "00:00 – 06:00", total: 6, avg: 0.6 },
+      { slot: "Morning 06–12", label: "06:00 – 12:00", total: 14, avg: 1.4 },
+      { slot: "Afternoon 12–17", label: "12:00 – 17:00", total: 18, avg: 1.8 },
+      { slot: "Evening 17–20", label: "17:00 – 20:00", total: 9, avg: 0.9 },
+      { slot: "Night 20–00", label: "20:00 – 00:00", total: 12, avg: 1.2 },
+    ];
+
+    const peakSlot = TIME_SLOTS.reduce((a, b) => a.avg > b.avg ? a : b);
+
+    const getBarColor = (count) => {
+      if (count >= 10) return "#dc2626";
+      if (count >= 6) return "#ef4444";
+      if (count >= 4) return "#f97316";
+      return "#fbbf24";
+    };
+
+    const getSlotColor = (avg) => {
+      if (avg >= 1.5) return "#7c3aed";
+      if (avg >= 1.0) return "#8b5cf6";
+      return "#a78bfa";
+    };
+
+    const DailyTooltip = ({ active, payload }) => {
+      if (!active || !payload?.length) return null;
+      const d = payload[0].payload;
+      return (
+        <div style={{ background: "#0c0c12", border: "1px solid #dc2626", borderRadius: 8, padding: "12px 16px", fontFamily: "monospace" }}>
+          <p style={{ color: "#f87171", fontWeight: 700, margin: 0, fontSize: 12 }}>{d.day} {d.fullDate}</p>
+          <p style={{ color: "#fff", margin: "6px 0 0", fontSize: 22, fontWeight: 900 }}>{d.count} <span style={{ fontSize: 13, color: "#aaa" }}>alerts</span></p>
+          <p style={{ color: "#4ade80", margin: "4px 0 0", fontSize: 12 }}>Trend: {d.trend}</p>
+        </div>
+      );
+    };
+
+    const SlotTooltip = ({ active, payload }) => {
+      if (!active || !payload?.length) return null;
+      const d = payload[0].payload;
+      return (
+        <div style={{ background: "#0c0c12", border: "1px solid #7c3aed", borderRadius: 8, padding: "12px 16px", fontFamily: "monospace" }}>
+          <p style={{ color: "#a78bfa", fontWeight: 700, margin: 0, fontSize: 12 }}>{d.label}</p>
+          <p style={{ color: "#fff", margin: "6px 0 0", fontSize: 22, fontWeight: 900 }}>{d.avg} <span style={{ fontSize: 13, color: "#aaa" }}>avg/day</span></p>
+          <p style={{ color: "#999", margin: "2px 0 0", fontSize: 11 }}>{d.total} total over {DAYS} days</p>
+        </div>
+      );
+    };
+
+    const StatCard = ({ label, value, sub, color }) => (
+      <div style={{
+        background: "linear-gradient(145deg, #111118, #0d0d14)",
+        border: `1px solid ${color}22`, borderRadius: 12,
+        padding: "20px 24px", flex: 1, minWidth: 150,
+      }}>
+        <p style={{ color: "#aaa", fontSize: 10, margin: 0, textTransform: "uppercase", letterSpacing: 2, fontFamily: "monospace" }}>{label}</p>
+        <p style={{ color, fontSize: 38, margin: "8px 0 4px", fontWeight: 900, fontFamily: "monospace", lineHeight: 1 }}>{value}</p>
+        {sub && <p style={{ color: "#888", fontSize: 11, margin: 0, fontFamily: "monospace" }}>{sub}</p>}
+      </div>
+    );
+
+    function Dashboard() {
+      return (
+        <div style={{
+          minHeight: "100vh", background: "#08080d", color: "#fff",
+          fontFamily: "system-ui, -apple-system, sans-serif",
+          padding: "28px 32px 48px", maxWidth: 960, margin: "0 auto",
+        }}>
+          {/* Header */}
+          <div style={{ marginBottom: 32, borderBottom: "1px solid #262630", paddingBottom: 20 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 10,
+                background: "linear-gradient(135deg, #dc2626, #f97316)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
+              }}>🚀</div>
+              <div>
+                <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, fontFamily: "monospace", color: "#f5f5f5" }}>
+                  Rocket & Missile Fire — ירי רקטות וטילים
+                </h1>
+                <p style={{ color: "#999", fontSize: 12, margin: "4px 0 0", fontFamily: "monospace" }}>
+                  Shomron (Samaria) Region — שומרון &nbsp;·&nbsp; 28 Feb – 09 Mar 2026
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Stat Cards */}
+          <div style={{ display: "flex", gap: 16, marginBottom: 32, flexWrap: "wrap" }}>
+            <StatCard label="Total Alerts" value={totalAlerts} sub="over 10 days · Shomron" color="#ef4444" />
+            <StatCard label="Daily Average" value={avgPerDay} sub="alerts / day" color="#f97316" />
+            <StatCard label="Peak Day" value={maxDay.count} sub={`${maxDay.day} ${maxDay.fullDate}`} color="#dc2626" />
+            <StatCard label="Peak Period (avg)" value={peakSlot.avg} sub={peakSlot.label} color="#7c3aed" />
+          </div>
+
+          {/* Daily Alert Count with Trend */}
+          <div style={{
+            background: "#0e0e16", border: "1px solid #1e1e2a",
+            borderRadius: 14, padding: "24px 20px 16px", marginBottom: 24,
+          }}>
+            <h2 style={{
+              fontSize: 15, fontWeight: 700, margin: "0 0 20px 6px",
+              fontFamily: "monospace", color: "#e0e0e0",
+              display: "flex", alignItems: "center", gap: 10,
+            }}>
+              <span style={{ width: 4, height: 18, borderRadius: 2, background: "#ef4444", display: "inline-block" }} />
+              Daily Alert Count — Shomron
+            </h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <ComposedChart data={RAW_ALERTS} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1a1a26" vertical={false} />
+                <XAxis dataKey="date" tick={{ fill: "#999", fontSize: 12, fontFamily: "monospace" }} axisLine={{ stroke: "#252530" }} tickLine={false} />
+                <YAxis tick={{ fill: "#777", fontSize: 11, fontFamily: "monospace" }} axisLine={false} tickLine={false} domain={[0, 15]} />
+                <Tooltip content={<DailyTooltip />} cursor={{ fill: "rgba(255,255,255,0.02)" }} />
+                <Bar dataKey="count" radius={[8, 8, 0, 0]} maxBarSize={48}>
+                  {RAW_ALERTS.map((entry, i) => (
+                    <Cell key={i} fill={getBarColor(entry.count)} />
+                  ))}
+                </Bar>
+                <Line type="monotone" dataKey="trend" stroke="#4ade80" strokeWidth={2} strokeDasharray="6 4" dot={false} />
+              </ComposedChart>
+            </ResponsiveContainer>
+            <div style={{ display: "flex", gap: 24, justifyContent: "center", marginTop: 10 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 14, height: 14, borderRadius: 3, background: "#ef4444" }} />
+                <span style={{ color: "#999", fontSize: 10, fontFamily: "monospace" }}>Daily alerts</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 20, height: 0, borderTop: "2px dashed #4ade80" }} />
+                <span style={{ color: "#999", fontSize: 10, fontFamily: "monospace" }}>Trend (linear)</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Time Slot Average */}
+          <div style={{
+            background: "#0e0e16", border: "1px solid #1e1e2a",
+            borderRadius: 14, padding: "24px 20px 16px", marginBottom: 24,
+          }}>
+            <h2 style={{
+              fontSize: 15, fontWeight: 700, margin: "0 0 4px 6px",
+              fontFamily: "monospace", color: "#e0e0e0",
+              display: "flex", alignItems: "center", gap: 10,
+            }}>
+              <span style={{ width: 4, height: 18, borderRadius: 2, background: "#7c3aed", display: "inline-block" }} />
+              Average Alerts by Time of Day
+            </h2>
+            <p style={{ color: "#999", fontSize: 11, fontFamily: "monospace", margin: "0 0 18px 22px" }}>
+              Average daily alerts per time slot across all {DAYS} days
+            </p>
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart data={TIME_SLOTS} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1a1a26" vertical={false} />
+                <XAxis dataKey="slot" tick={{ fill: "#bbb", fontSize: 11, fontFamily: "monospace" }} axisLine={{ stroke: "#252530" }} tickLine={false} interval={0} />
+                <YAxis tick={{ fill: "#777", fontSize: 11, fontFamily: "monospace" }} axisLine={false} tickLine={false} domain={[0, 2.5]} />
+                <Tooltip content={<SlotTooltip />} cursor={{ fill: "rgba(255,255,255,0.02)" }} />
+                <Bar dataKey="avg" radius={[8, 8, 0, 0]} maxBarSize={70}>
+                  {TIME_SLOTS.map((entry, i) => (
+                    <Cell key={i} fill={getSlotColor(entry.avg)} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Detail Table */}
+          <div style={{
+            background: "#0e0e16", border: "1px solid #1e1e2a",
+            borderRadius: 14, padding: "24px 20px 16px",
+          }}>
+            <h2 style={{
+              fontSize: 15, fontWeight: 700, margin: "0 0 18px 6px",
+              fontFamily: "monospace", color: "#e0e0e0",
+              display: "flex", alignItems: "center", gap: 10,
+            }}>
+              <span style={{ width: 4, height: 18, borderRadius: 2, background: "#ef4444", display: "inline-block" }} />
+              Daily Breakdown
+            </h2>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "monospace", fontSize: 13 }}>
+                <thead>
+                  <tr>
+                    {["Day", "Date", "Alerts", "Intensity", "Share"].map(h => (
+                      <th key={h} style={{ padding: "10px 16px", color: "#999", fontWeight: 600, textAlign: "left", fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, borderBottom: "1px solid #1e1e2a" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {RAW_ALERTS.map((d, i) => {
+                    const pct = ((d.count / totalAlerts) * 100).toFixed(1);
+                    const barW = (d.count / maxDay.count) * 100;
+                    return (
+                      <tr key={i} style={{ borderBottom: "1px solid #141420" }}>
+                        <td style={{ padding: "12px 16px", color: "#aaa" }}>{d.day}</td>
+                        <td style={{ padding: "12px 16px", color: "#ddd", fontWeight: 700 }}>{d.fullDate}</td>
+                        <td style={{ padding: "12px 16px", color: getBarColor(d.count), fontWeight: 900, fontSize: 18 }}>{d.count}</td>
+                        <td style={{ padding: "12px 16px", width: "30%" }}>
+                          <div style={{ background: "#0a0a10", borderRadius: 6, height: 12, overflow: "hidden" }}>
+                            <div style={{
+                              width: `${barW}%`, height: "100%", borderRadius: 6,
+                              background: `linear-gradient(90deg, ${getBarColor(d.count)}aa, ${getBarColor(d.count)})`,
+                            }} />
+                          </div>
+                        </td>
+                        <td style={{ padding: "12px 16px", color: "#999" }}>{pct}%</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p style={{ textAlign: "center", color: "#555", fontSize: 10, marginTop: 32, fontFamily: "monospace" }}>
+            Source: WhatsApp Group חדשות השומרון — Security Updates Ariel & Shomron Region
+          </p>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<Dashboard />);
+  </script>
+</body>
+</html>
