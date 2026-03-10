@@ -2,269 +2,300 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rocket & Missile Fire Dashboard — Shomron</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.7/Recharts.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#08080d" />
+  <title>Rocket & Missile Fire — Shomron Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #08080d; font-family: system-ui, -apple-system, sans-serif; }
-    #root { min-height: 100vh; }
+    body { background: #08080d; font-family: 'Courier New', monospace; color: #fff; -webkit-text-size-adjust: 100%; }
+    .container { max-width: 920px; margin: 0 auto; padding: 20px 16px 40px; }
+
+    .header { margin-bottom: 24px; border-bottom: 1px solid #262630; padding-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+    .header-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #dc2626, #f97316); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .header-text h1 { font-size: 15px; font-weight: 800; color: #f5f5f5; line-height: 1.3; }
+    .header-text p { color: #999; font-size: 11px; margin-top: 3px; }
+
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .stat-card { background: linear-gradient(145deg, #111118, #0d0d14); border-radius: 12px; padding: 14px 16px; }
+    .stat-label { color: #aaa; font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; }
+    .stat-value { font-size: 28px; font-weight: 900; margin: 6px 0 2px; line-height: 1; }
+    .stat-sub { color: #888; font-size: 10px; }
+
+    .card { background: #0e0e16; border: 1px solid #1e1e2a; border-radius: 14px; padding: 18px 14px 12px; margin-bottom: 18px; }
+    .card-title { font-size: 13px; font-weight: 700; color: #e0e0e0; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .card-title .dot { width: 4px; height: 16px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+    .card-desc { color: #999; font-size: 10px; margin: -10px 0 14px 20px; }
+
+    .chart-wrap { position: relative; width: 100%; }
+    canvas { max-width: 100%; }
+
+    .legend { display: flex; gap: 16px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 5px; color: #999; font-size: 9px; }
+    .legend-box { width: 12px; height: 12px; border-radius: 3px; }
+    .legend-line { width: 16px; height: 0; border-top: 2px dashed; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    th { padding: 8px 8px; color: #999; font-weight: 600; text-align: left; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #1e1e2a; }
+    td { padding: 10px 8px; border-bottom: 1px solid #141420; }
+    .td-day { color: #aaa; }
+    .td-date { color: #ddd; font-weight: 700; }
+    .td-count { font-weight: 900; font-size: 16px; }
+    .td-share { color: #999; }
+    .bar-bg { background: #0a0a10; border-radius: 6px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 6px; }
+
+    .footer { text-align: center; color: #555; font-size: 9px; margin-top: 28px; line-height: 1.5; }
+
+    /* Desktop */
+    @media (min-width: 640px) {
+      .container { padding: 28px 24px 48px; }
+      .header-text h1 { font-size: 22px; }
+      .header-text p { font-size: 12px; }
+      .stats { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+      .stat-value { font-size: 36px; }
+      .stat-label { font-size: 10px; }
+      .card { padding: 24px 20px 16px; }
+      .card-title { font-size: 15px; }
+      table { font-size: 13px; }
+      th { padding: 10px 16px; }
+      td { padding: 12px 16px; }
+      .td-count { font-size: 18px; }
+      .bar-bg { height: 12px; }
+      .footer { font-size: 10px; }
+    }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ComposedChart, Line } = Recharts;
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-icon">🚀</div>
+      <div class="header-text">
+        <h1>Rocket & Missile Fire<br/>ירי רקטות וטילים</h1>
+        <p>Shomron · שומרון · 28 Feb – 09 Mar 2026</p>
+      </div>
+    </div>
 
-    const DAYS = 10;
-    const totalAlerts = 59;
-    const avgPerDay = (totalAlerts / DAYS).toFixed(1);
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card" style="border: 1px solid #ef444422;">
+        <div class="stat-label">Total Alerts</div>
+        <div class="stat-value" style="color: #ef4444;">59</div>
+        <div class="stat-sub">over 10 days</div>
+      </div>
+      <div class="stat-card" style="border: 1px solid #f9731622;">
+        <div class="stat-label">Daily Average</div>
+        <div class="stat-value" style="color: #f97316;">5.9</div>
+        <div class="stat-sub">alerts / day</div>
+      </div>
+      <div class="stat-card" style="border: 1px solid #dc262622;">
+        <div class="stat-label">Peak Day</div>
+        <div class="stat-value" style="color: #dc2626;">13</div>
+        <div class="stat-sub">Sat 28/02</div>
+      </div>
+      <div class="stat-card" style="border: 1px solid #7c3aed22;">
+        <div class="stat-label">Peak Period</div>
+        <div class="stat-value" style="color: #7c3aed;">1.8</div>
+        <div class="stat-sub">12:00–17:00 avg</div>
+      </div>
+    </div>
 
-    const counts = [13, 8, 3, 4, 3, 6, 4, 8, 5, 5];
-    const n = counts.length;
-    const xMean = (n - 1) / 2;
-    const yMean = totalAlerts / n;
-    const slope = counts.reduce((acc, y, i) => acc + (i - xMean) * (y - yMean), 0) /
-      counts.reduce((acc, _, i) => acc + (i - xMean) ** 2, 0);
-    const intercept = yMean - slope * xMean;
+    <!-- Daily Alert Chart -->
+    <div class="card">
+      <div class="card-title">
+        <span class="dot" style="background: #ef4444;"></span>
+        Daily Alert Count
+      </div>
+      <div class="chart-wrap"><canvas id="dailyChart"></canvas></div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-box" style="background: #ef4444;"></div> Daily alerts</div>
+        <div class="legend-item"><div class="legend-line" style="border-color: #4ade80;"></div> Trend</div>
+      </div>
+    </div>
 
-    const RAW_ALERTS = [
-      { date: "28/02", fullDate: "28/02/2026", count: 13, day: "Sat" },
-      { date: "01/03", fullDate: "01/03/2026", count: 8, day: "Sun" },
-      { date: "02/03", fullDate: "02/03/2026", count: 3, day: "Mon" },
-      { date: "03/03", fullDate: "03/03/2026", count: 4, day: "Tue" },
-      { date: "04/03", fullDate: "04/03/2026", count: 3, day: "Wed" },
-      { date: "05/03", fullDate: "05/03/2026", count: 6, day: "Thu" },
-      { date: "06/03", fullDate: "06/03/2026", count: 4, day: "Fri" },
-      { date: "07/03", fullDate: "07/03/2026", count: 8, day: "Sat" },
-      { date: "08/03", fullDate: "08/03/2026", count: 5, day: "Sun" },
-      { date: "09/03", fullDate: "09/03/2026", count: 5, day: "Mon" },
-    ].map((d, i) => ({ ...d, trend: Math.round((intercept + slope * i) * 10) / 10 }));
+    <!-- Time Slot Chart -->
+    <div class="card">
+      <div class="card-title">
+        <span class="dot" style="background: #7c3aed;"></span>
+        Avg Alerts by Time of Day
+      </div>
+      <p class="card-desc">Average per day across all 10 days</p>
+      <div class="chart-wrap"><canvas id="slotChart"></canvas></div>
+    </div>
 
-    const maxDay = RAW_ALERTS.reduce((a, b) => a.count > b.count ? a : b);
+    <!-- Table -->
+    <div class="card">
+      <div class="card-title">
+        <span class="dot" style="background: #ef4444;"></span>
+        Daily Breakdown
+      </div>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr><th>Day</th><th>Date</th><th>Alerts</th><th>Intensity</th><th>%</th></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
 
-    const TIME_SLOTS = [
-      { slot: "Night 00–06", label: "00:00 – 06:00", total: 6, avg: 0.6 },
-      { slot: "Morning 06–12", label: "06:00 – 12:00", total: 14, avg: 1.4 },
-      { slot: "Afternoon 12–17", label: "12:00 – 17:00", total: 18, avg: 1.8 },
-      { slot: "Evening 17–20", label: "17:00 – 20:00", total: 9, avg: 0.9 },
-      { slot: "Night 20–00", label: "20:00 – 00:00", total: 12, avg: 1.2 },
+    <p class="footer">Source: WhatsApp חדשות השומרון<br/>Security Updates · Ariel & Shomron Region</p>
+  </div>
+
+  <script>
+    const data = [
+      { date: "28/02", full: "28/02/2026", count: 13, day: "Sat" },
+      { date: "01/03", full: "01/03/2026", count: 8, day: "Sun" },
+      { date: "02/03", full: "02/03/2026", count: 3, day: "Mon" },
+      { date: "03/03", full: "03/03/2026", count: 4, day: "Tue" },
+      { date: "04/03", full: "04/03/2026", count: 3, day: "Wed" },
+      { date: "05/03", full: "05/03/2026", count: 6, day: "Thu" },
+      { date: "06/03", full: "06/03/2026", count: 4, day: "Fri" },
+      { date: "07/03", full: "07/03/2026", count: 8, day: "Sat" },
+      { date: "08/03", full: "08/03/2026", count: 5, day: "Sun" },
+      { date: "09/03", full: "09/03/2026", count: 5, day: "Mon" },
     ];
 
-    const peakSlot = TIME_SLOTS.reduce((a, b) => a.avg > b.avg ? a : b);
+    const total = 59, maxCount = 13;
 
-    const getBarColor = (count) => {
-      if (count >= 10) return "#dc2626";
-      if (count >= 6) return "#ef4444";
-      if (count >= 4) return "#f97316";
-      return "#fbbf24";
-    };
+    // Trend
+    const nn = data.length, xM = (nn-1)/2, yM = total/nn;
+    const sl = data.reduce((a,d,i) => a+(i-xM)*(d.count-yM),0) / data.reduce((a,_,i) => a+(i-xM)**2,0);
+    const ic = yM - sl*xM;
+    const trend = data.map((_,i) => Math.round((ic+sl*i)*10)/10);
 
-    const getSlotColor = (avg) => {
-      if (avg >= 1.5) return "#7c3aed";
-      if (avg >= 1.0) return "#8b5cf6";
-      return "#a78bfa";
-    };
-
-    const DailyTooltip = ({ active, payload }) => {
-      if (!active || !payload?.length) return null;
-      const d = payload[0].payload;
-      return (
-        <div style={{ background: "#0c0c12", border: "1px solid #dc2626", borderRadius: 8, padding: "12px 16px", fontFamily: "monospace" }}>
-          <p style={{ color: "#f87171", fontWeight: 700, margin: 0, fontSize: 12 }}>{d.day} {d.fullDate}</p>
-          <p style={{ color: "#fff", margin: "6px 0 0", fontSize: 22, fontWeight: 900 }}>{d.count} <span style={{ fontSize: 13, color: "#aaa" }}>alerts</span></p>
-          <p style={{ color: "#4ade80", margin: "4px 0 0", fontSize: 12 }}>Trend: {d.trend}</p>
-        </div>
-      );
-    };
-
-    const SlotTooltip = ({ active, payload }) => {
-      if (!active || !payload?.length) return null;
-      const d = payload[0].payload;
-      return (
-        <div style={{ background: "#0c0c12", border: "1px solid #7c3aed", borderRadius: 8, padding: "12px 16px", fontFamily: "monospace" }}>
-          <p style={{ color: "#a78bfa", fontWeight: 700, margin: 0, fontSize: 12 }}>{d.label}</p>
-          <p style={{ color: "#fff", margin: "6px 0 0", fontSize: 22, fontWeight: 900 }}>{d.avg} <span style={{ fontSize: 13, color: "#aaa" }}>avg/day</span></p>
-          <p style={{ color: "#999", margin: "2px 0 0", fontSize: 11 }}>{d.total} total over {DAYS} days</p>
-        </div>
-      );
-    };
-
-    const StatCard = ({ label, value, sub, color }) => (
-      <div style={{
-        background: "linear-gradient(145deg, #111118, #0d0d14)",
-        border: `1px solid ${color}22`, borderRadius: 12,
-        padding: "20px 24px", flex: 1, minWidth: 150,
-      }}>
-        <p style={{ color: "#aaa", fontSize: 10, margin: 0, textTransform: "uppercase", letterSpacing: 2, fontFamily: "monospace" }}>{label}</p>
-        <p style={{ color, fontSize: 38, margin: "8px 0 4px", fontWeight: 900, fontFamily: "monospace", lineHeight: 1 }}>{value}</p>
-        {sub && <p style={{ color: "#888", fontSize: 11, margin: 0, fontFamily: "monospace" }}>{sub}</p>}
-      </div>
-    );
-
-    function Dashboard() {
-      return (
-        <div style={{
-          minHeight: "100vh", background: "#08080d", color: "#fff",
-          fontFamily: "system-ui, -apple-system, sans-serif",
-          padding: "28px 32px 48px", maxWidth: 960, margin: "0 auto",
-        }}>
-          {/* Header */}
-          <div style={{ marginBottom: 32, borderBottom: "1px solid #262630", paddingBottom: 20 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{
-                width: 44, height: 44, borderRadius: 10,
-                background: "linear-gradient(135deg, #dc2626, #f97316)",
-                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
-              }}>🚀</div>
-              <div>
-                <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0, fontFamily: "monospace", color: "#f5f5f5" }}>
-                  Rocket & Missile Fire — ירי רקטות וטילים
-                </h1>
-                <p style={{ color: "#999", fontSize: 12, margin: "4px 0 0", fontFamily: "monospace" }}>
-                  Shomron (Samaria) Region — שומרון &nbsp;·&nbsp; 28 Feb – 09 Mar 2026
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Stat Cards */}
-          <div style={{ display: "flex", gap: 16, marginBottom: 32, flexWrap: "wrap" }}>
-            <StatCard label="Total Alerts" value={totalAlerts} sub="over 10 days · Shomron" color="#ef4444" />
-            <StatCard label="Daily Average" value={avgPerDay} sub="alerts / day" color="#f97316" />
-            <StatCard label="Peak Day" value={maxDay.count} sub={`${maxDay.day} ${maxDay.fullDate}`} color="#dc2626" />
-            <StatCard label="Peak Period (avg)" value={peakSlot.avg} sub={peakSlot.label} color="#7c3aed" />
-          </div>
-
-          {/* Daily Alert Count with Trend */}
-          <div style={{
-            background: "#0e0e16", border: "1px solid #1e1e2a",
-            borderRadius: 14, padding: "24px 20px 16px", marginBottom: 24,
-          }}>
-            <h2 style={{
-              fontSize: 15, fontWeight: 700, margin: "0 0 20px 6px",
-              fontFamily: "monospace", color: "#e0e0e0",
-              display: "flex", alignItems: "center", gap: 10,
-            }}>
-              <span style={{ width: 4, height: 18, borderRadius: 2, background: "#ef4444", display: "inline-block" }} />
-              Daily Alert Count — Shomron
-            </h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <ComposedChart data={RAW_ALERTS} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1a1a26" vertical={false} />
-                <XAxis dataKey="date" tick={{ fill: "#999", fontSize: 12, fontFamily: "monospace" }} axisLine={{ stroke: "#252530" }} tickLine={false} />
-                <YAxis tick={{ fill: "#777", fontSize: 11, fontFamily: "monospace" }} axisLine={false} tickLine={false} domain={[0, 15]} />
-                <Tooltip content={<DailyTooltip />} cursor={{ fill: "rgba(255,255,255,0.02)" }} />
-                <Bar dataKey="count" radius={[8, 8, 0, 0]} maxBarSize={48}>
-                  {RAW_ALERTS.map((entry, i) => (
-                    <Cell key={i} fill={getBarColor(entry.count)} />
-                  ))}
-                </Bar>
-                <Line type="monotone" dataKey="trend" stroke="#4ade80" strokeWidth={2} strokeDasharray="6 4" dot={false} />
-              </ComposedChart>
-            </ResponsiveContainer>
-            <div style={{ display: "flex", gap: 24, justifyContent: "center", marginTop: 10 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 14, height: 14, borderRadius: 3, background: "#ef4444" }} />
-                <span style={{ color: "#999", fontSize: 10, fontFamily: "monospace" }}>Daily alerts</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 20, height: 0, borderTop: "2px dashed #4ade80" }} />
-                <span style={{ color: "#999", fontSize: 10, fontFamily: "monospace" }}>Trend (linear)</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Time Slot Average */}
-          <div style={{
-            background: "#0e0e16", border: "1px solid #1e1e2a",
-            borderRadius: 14, padding: "24px 20px 16px", marginBottom: 24,
-          }}>
-            <h2 style={{
-              fontSize: 15, fontWeight: 700, margin: "0 0 4px 6px",
-              fontFamily: "monospace", color: "#e0e0e0",
-              display: "flex", alignItems: "center", gap: 10,
-            }}>
-              <span style={{ width: 4, height: 18, borderRadius: 2, background: "#7c3aed", display: "inline-block" }} />
-              Average Alerts by Time of Day
-            </h2>
-            <p style={{ color: "#999", fontSize: 11, fontFamily: "monospace", margin: "0 0 18px 22px" }}>
-              Average daily alerts per time slot across all {DAYS} days
-            </p>
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={TIME_SLOTS} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1a1a26" vertical={false} />
-                <XAxis dataKey="slot" tick={{ fill: "#bbb", fontSize: 11, fontFamily: "monospace" }} axisLine={{ stroke: "#252530" }} tickLine={false} interval={0} />
-                <YAxis tick={{ fill: "#777", fontSize: 11, fontFamily: "monospace" }} axisLine={false} tickLine={false} domain={[0, 2.5]} />
-                <Tooltip content={<SlotTooltip />} cursor={{ fill: "rgba(255,255,255,0.02)" }} />
-                <Bar dataKey="avg" radius={[8, 8, 0, 0]} maxBarSize={70}>
-                  {TIME_SLOTS.map((entry, i) => (
-                    <Cell key={i} fill={getSlotColor(entry.avg)} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Detail Table */}
-          <div style={{
-            background: "#0e0e16", border: "1px solid #1e1e2a",
-            borderRadius: 14, padding: "24px 20px 16px",
-          }}>
-            <h2 style={{
-              fontSize: 15, fontWeight: 700, margin: "0 0 18px 6px",
-              fontFamily: "monospace", color: "#e0e0e0",
-              display: "flex", alignItems: "center", gap: 10,
-            }}>
-              <span style={{ width: 4, height: 18, borderRadius: 2, background: "#ef4444", display: "inline-block" }} />
-              Daily Breakdown
-            </h2>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "monospace", fontSize: 13 }}>
-                <thead>
-                  <tr>
-                    {["Day", "Date", "Alerts", "Intensity", "Share"].map(h => (
-                      <th key={h} style={{ padding: "10px 16px", color: "#999", fontWeight: 600, textAlign: "left", fontSize: 10, textTransform: "uppercase", letterSpacing: 1.5, borderBottom: "1px solid #1e1e2a" }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {RAW_ALERTS.map((d, i) => {
-                    const pct = ((d.count / totalAlerts) * 100).toFixed(1);
-                    const barW = (d.count / maxDay.count) * 100;
-                    return (
-                      <tr key={i} style={{ borderBottom: "1px solid #141420" }}>
-                        <td style={{ padding: "12px 16px", color: "#aaa" }}>{d.day}</td>
-                        <td style={{ padding: "12px 16px", color: "#ddd", fontWeight: 700 }}>{d.fullDate}</td>
-                        <td style={{ padding: "12px 16px", color: getBarColor(d.count), fontWeight: 900, fontSize: 18 }}>{d.count}</td>
-                        <td style={{ padding: "12px 16px", width: "30%" }}>
-                          <div style={{ background: "#0a0a10", borderRadius: 6, height: 12, overflow: "hidden" }}>
-                            <div style={{
-                              width: `${barW}%`, height: "100%", borderRadius: 6,
-                              background: `linear-gradient(90deg, ${getBarColor(d.count)}aa, ${getBarColor(d.count)})`,
-                            }} />
-                          </div>
-                        </td>
-                        <td style={{ padding: "12px 16px", color: "#999" }}>{pct}%</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <p style={{ textAlign: "center", color: "#555", fontSize: 10, marginTop: 32, fontFamily: "monospace" }}>
-            Source: WhatsApp Group חדשות השומרון — Security Updates Ariel & Shomron Region
-          </p>
-        </div>
-      );
+    function getColor(c) {
+      if (c >= 10) return '#dc2626';
+      if (c >= 6) return '#ef4444';
+      if (c >= 4) return '#f97316';
+      return '#fbbf24';
     }
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<Dashboard />);
+    const isMobile = window.innerWidth < 640;
+
+    // Daily chart
+    new Chart(document.getElementById('dailyChart'), {
+      type: 'bar',
+      data: {
+        labels: data.map(d => d.date),
+        datasets: [
+          {
+            label: 'Alerts',
+            data: data.map(d => d.count),
+            backgroundColor: data.map(d => getColor(d.count)),
+            borderRadius: 6,
+            maxBarThickness: isMobile ? 32 : 48,
+            order: 2,
+          },
+          {
+            label: 'Trend',
+            data: trend,
+            type: 'line',
+            borderColor: '#4ade80',
+            borderWidth: 2,
+            borderDash: [6, 4],
+            pointRadius: 0,
+            fill: false,
+            order: 1,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: isMobile ? 1.4 : 2.2,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0c0c12',
+            borderColor: '#dc2626',
+            borderWidth: 1,
+            titleColor: '#f87171',
+            bodyColor: '#fff',
+            titleFont: { family: 'Courier New', weight: 'bold', size: 11 },
+            bodyFont: { family: 'Courier New', size: 13, weight: 'bold' },
+            padding: 10,
+            callbacks: {
+              title: (items) => data[items[0].dataIndex].day + ' ' + data[items[0].dataIndex].full,
+              label: (item) => item.dataset.label === 'Alerts' ? item.raw + ' alerts' : 'Trend: ' + item.raw,
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#999', font: { family: 'Courier New', size: isMobile ? 9 : 12 } }, grid: { color: '#1a1a26' }, border: { color: '#252530' } },
+          y: { ticks: { color: '#777', font: { family: 'Courier New', size: isMobile ? 9 : 11 } }, grid: { color: '#1a1a26' }, border: { display: false }, min: 0, max: 15 }
+        }
+      }
+    });
+
+    // Time slots
+    const slots = [
+      { label: isMobile ? '00–06' : 'Night 00–06', full: '00:00 – 06:00', avg: 0.6, total: 6 },
+      { label: isMobile ? '06–12' : 'Morning 06–12', full: '06:00 – 12:00', avg: 1.4, total: 14 },
+      { label: isMobile ? '12–17' : 'Afternoon 12–17', full: '12:00 – 17:00', avg: 1.8, total: 18 },
+      { label: isMobile ? '17–20' : 'Evening 17–20', full: '17:00 – 20:00', avg: 0.9, total: 9 },
+      { label: isMobile ? '20–00' : 'Night 20–00', full: '20:00 – 00:00', avg: 1.2, total: 12 },
+    ];
+
+    new Chart(document.getElementById('slotChart'), {
+      type: 'bar',
+      data: {
+        labels: slots.map(s => s.label),
+        datasets: [{
+          data: slots.map(s => s.avg),
+          backgroundColor: slots.map(s => s.avg >= 1.5 ? '#7c3aed' : s.avg >= 1.0 ? '#8b5cf6' : '#a78bfa'),
+          borderRadius: 6,
+          maxBarThickness: isMobile ? 44 : 70,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: isMobile ? 1.5 : 2.2,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0c0c12',
+            borderColor: '#7c3aed',
+            borderWidth: 1,
+            titleColor: '#a78bfa',
+            bodyColor: '#fff',
+            titleFont: { family: 'Courier New', weight: 'bold', size: 11 },
+            bodyFont: { family: 'Courier New', size: 13, weight: 'bold' },
+            padding: 10,
+            callbacks: {
+              title: (items) => slots[items[0].dataIndex].full,
+              label: (item) => {
+                const s = slots[item.dataIndex];
+                return [s.avg + ' avg/day', s.total + ' total over 10 days'];
+              }
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#bbb', font: { family: 'Courier New', size: isMobile ? 10 : 11 } }, grid: { color: '#1a1a26' }, border: { color: '#252530' } },
+          y: { ticks: { color: '#777', font: { family: 'Courier New', size: isMobile ? 9 : 11 } }, grid: { color: '#1a1a26' }, border: { display: false }, min: 0, max: 2.5 }
+        }
+      }
+    });
+
+    // Table
+    const tbody = document.getElementById('tableBody');
+    data.forEach(d => {
+      const pct = ((d.count / total) * 100).toFixed(1);
+      const barW = (d.count / maxCount) * 100;
+      const color = getColor(d.count);
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="td-day">${d.day}</td>
+        <td class="td-date">${d.full}</td>
+        <td class="td-count" style="color:${color}">${d.count}</td>
+        <td style="width:28%"><div class="bar-bg"><div class="bar-fill" style="width:${barW}%;background:linear-gradient(90deg,${color}aa,${color})"></div></div></td>
+        <td class="td-share">${pct}%</td>
+      `;
+      tbody.appendChild(tr);
+    });
   </script>
 </body>
 </html>
