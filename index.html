@@ -51,53 +51,68 @@
     </div>
   </div>
   <div class="stats">
-    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">Total Alerts</div><div class="sc-v" style="color:#ef4444">78</div><div class="sc-s">over 13 days · Shomron</div></div>
-    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">Daily Average</div><div class="sc-v" style="color:#f97316">6.0</div><div class="sc-s">alerts / day</div></div>
-    <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">Peak Day</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">Sat 28/02</div></div>
+    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">Rocket Alerts</div><div class="sc-v" style="color:#ef4444">78</div><div class="sc-s">6.0/day · 13 days</div></div>
+    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">Launch Detected</div><div class="sc-v" style="color:#f97316">74</div><div class="sc-s">5.7/day · 13 days</div></div>
+    <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">Peak Rockets</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">Sat 28/02</div></div>
     <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">Peak Period</div><div class="sc-v" style="color:#7c3aed">1.8</div><div class="sc-s">12–17 avg</div></div>
 </div>
+
   <div class="card">
-    <div class="ct"><span class="dot" style="background:#ef4444"></span> Daily Alert Count — Shomron</div>
+    <div class="ct"><span class="dot" style="background:#ef4444"></span> Daily Rocket & Missile Alerts — ירי רקטות/טילים</div>
     <div id="ch1"></div>
     <div class="leg">
       <div class="leg-i"><div class="leg-b" style="background:#ef4444"></div> Daily alerts</div>
       <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/></svg> Trend</div>
     </div>
   </div>
+
   <div class="card">
-    <div class="ct"><span class="dot" style="background:#7c3aed"></span> Avg Alerts by Time of Day</div>
+    <div class="ct"><span class="dot" style="background:#f97316"></span> Daily Launch Detections — זיהוי שיגורים</div>
+    <div id="ch_shigur"></div>
+    <div class="leg">
+      <div class="leg-i"><div class="leg-b" style="background:#f97316"></div> Daily detections</div>
+      <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#22d3ee" stroke-width="2" stroke-dasharray="4,3"/></svg> Trend</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct"><span class="dot" style="background:#7c3aed"></span> Avg Rocket Alerts by Time of Day</div>
     <p class="cd">Average per day across all 13 days</p>
     <div id="ch2"></div>
   </div>
+
   <div class="card">
-    <div class="ct"><span class="dot" style="background:#ef4444"></span> Daily Breakdown</div>
+    <div class="ct"><span class="dot" style="background:#ef4444"></span> Daily Breakdown — Rockets</div>
     <div style="overflow-x:auto">
       <table>
-        <thead><tr><th>Day</th><th>Date</th><th>Alerts</th><th>Intensity</th><th>%</th></tr></thead>
+        <thead><tr><th>Day</th><th>Date</th><th>Rockets</th><th>Intensity</th><th>%</th></tr></thead>
         <tbody id="tb"></tbody>
       </table>
     </div>
   </div>
+
   <p class="ft">Source: WhatsApp חדשות השומרון<br/>Security Updates · Ariel & Shomron Region</p>
 </div>
 <script>
 var D=[
-  {d:"28/02",f:"28/02/2026",c:15,day:"Sat"},
-  {d:"01/03",f:"01/03/2026",c:10,day:"Sun"},
-  {d:"02/03",f:"02/03/2026",c:3,day:"Mon"},
-  {d:"03/03",f:"03/03/2026",c:6,day:"Tue"},
-  {d:"04/03",f:"04/03/2026",c:4,day:"Wed"},
-  {d:"05/03",f:"05/03/2026",c:7,day:"Thu"},
-  {d:"06/03",f:"06/03/2026",c:4,day:"Fri"},
-  {d:"07/03",f:"07/03/2026",c:8,day:"Sat"},
-  {d:"08/03",f:"08/03/2026",c:5,day:"Sun"},
-  {d:"09/03",f:"09/03/2026",c:5,day:"Mon"},
-  {d:"10/03",f:"10/03/2026",c:4,day:"Tue"},
-  {d:"11/03",f:"11/03/2026",c:6,day:"Wed"},
-  {d:"12/03",f:"12/03/2026",c:1,day:"Thu"}
+  {d:"28/02",f:"28/02/2026",c:15,sc:5,day:"Sat"},
+  {d:"01/03",f:"01/03/2026",c:10,sc:9,day:"Sun"},
+  {d:"02/03",f:"02/03/2026",c:3,sc:3,day:"Mon"},
+  {d:"03/03",f:"03/03/2026",c:6,sc:6,day:"Tue"},
+  {d:"04/03",f:"04/03/2026",c:4,sc:3,day:"Wed"},
+  {d:"05/03",f:"05/03/2026",c:7,sc:7,day:"Thu"},
+  {d:"06/03",f:"06/03/2026",c:4,sc:5,day:"Fri"},
+  {d:"07/03",f:"07/03/2026",c:8,sc:9,day:"Sat"},
+  {d:"08/03",f:"08/03/2026",c:5,sc:5,day:"Sun"},
+  {d:"09/03",f:"09/03/2026",c:5,sc:7,day:"Mon"},
+  {d:"10/03",f:"10/03/2026",c:4,sc:6,day:"Tue"},
+  {d:"11/03",f:"11/03/2026",c:6,sc:6,day:"Wed"},
+  {d:"12/03",f:"12/03/2026",c:1,sc:3,day:"Thu"}
 ];
-var TOT=78,MXBAR=17,MC=15;
-var TR=[9.3,8.7,8.2,7.6,7.1,6.5,6.0,5.5,4.9,4.4,3.8,3.3,2.7];
+var RTOT=78,STOT=74,MXBAR=17,MC=15;
+var SMXBAR=12;
+var RTR=[9.3,8.7,8.2,7.6,7.1,6.5,6.0,5.5,4.9,4.4,3.8,3.3,2.7];
+var STR=[5.9,5.9,5.8,5.8,5.8,5.7,5.7,5.7,5.6,5.6,5.6,5.5,5.5];
 var SL=[
   {l:"00–06",a:0.9},
   {l:"06–12",a:1.2},
@@ -106,8 +121,10 @@ var SL=[
   {l:"20–00",a:1.2}
 ];
 var MXSL=2.3;
+var NDAYS=13;
 
 function gc(c){return c>=10?'#dc2626':c>=6?'#ef4444':c>=4?'#f97316':'#fbbf24';}
+function sc(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
 
 function drawBar(el,vals,labs,maxV,colFn,trend,tCol){
   var W=el.clientWidth;
@@ -153,18 +170,20 @@ function drawBar(el,vals,labs,maxV,colFn,trend,tCol){
   el.innerHTML=s;
 }
 
-var dVals=[],dLabs=[];
-for(var i=0;i<D.length;i++){dVals.push(D[i].c);dLabs.push(D[i].d);}
-drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,TR,'#4ade80');
+var dVals=[],sVals=[],dLabs=[];
+for(var i=0;i<D.length;i++){dVals.push(D[i].c);sVals.push(D[i].sc);dLabs.push(D[i].d);}
 
-var sVals=[],sLabs=[];
-for(var i=0;i<SL.length;i++){sVals.push(SL[i].a);sLabs.push(SL[i].l);}
-drawBar(document.getElementById('ch2'),sVals,sLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null);
+drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80');
+drawBar(document.getElementById('ch_shigur'),sVals,dLabs,SMXBAR,sc,STR,'#22d3ee');
+
+var slVals=[],slLabs=[];
+for(var i=0;i<SL.length;i++){slVals.push(SL[i].a);slLabs.push(SL[i].l);}
+drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null);
 
 var tb=document.getElementById('tb');
 for(var i=0;i<D.length;i++){
   var d=D[i];
-  var pct=((d.c/TOT)*100).toFixed(1);
+  var pct=((d.c/RTOT)*100).toFixed(1);
   var bw=(d.c/MC)*100;
   var col=gc(d.c);
   var r=document.createElement('tr');
@@ -177,8 +196,9 @@ for(var i=0;i<D.length;i++){
 }
 
 window.addEventListener('resize',function(){
-  drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,TR,'#4ade80');
-  drawBar(document.getElementById('ch2'),sVals,sLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null);
+  drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80');
+  drawBar(document.getElementById('ch_shigur'),sVals,dLabs,SMXBAR,sc,STR,'#22d3ee');
+  drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null);
 });
 </script>
 </body>
