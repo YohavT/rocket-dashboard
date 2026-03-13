@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#08080d" />
-  <title>Rocket & Missile Fire — Shomron</title>
+  <title>ירי רקטות וטילים — שומרון</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:#08080d;font-family:'Courier New',Courier,monospace;color:#fff;-webkit-text-size-adjust:100%}
+    body{background:#08080d;font-family:'Courier New',Courier,monospace;color:#fff;-webkit-text-size-adjust:100%;direction:rtl}
     .c{max-width:920px;margin:0 auto;padding:20px 16px 40px}
     .hdr{margin-bottom:24px;border-bottom:1px solid #262630;padding-bottom:16px;display:flex;align-items:center;gap:12px}
     .hdr-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#f97316);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-    .hdr h1{font-size:15px;font-weight:800;color:#f5f5f5;line-height:1.3}
+    .hdr h1{font-size:17px;font-weight:800;color:#f5f5f5;line-height:1.4}
     .hdr p{color:#999;font-size:11px;margin-top:3px}
     .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
     .sc{background:linear-gradient(145deg,#111118,#0d0d14);border-radius:12px;padding:14px 16px}
@@ -19,25 +19,20 @@
     .sc-v{font-size:28px;font-weight:900;margin:6px 0 2px;line-height:1}
     .sc-s{color:#888;font-size:10px}
     .card{background:#0e0e16;border:1px solid #1e1e2a;border-radius:14px;padding:18px 14px 14px;margin-bottom:18px}
-    .ct{font-size:13px;font-weight:700;color:#e0e0e0;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .ct{font-size:14px;font-weight:700;color:#e0e0e0;margin-bottom:14px;display:flex;align-items:center;gap:8px}
     .ct .dot{width:4px;height:16px;border-radius:2px;display:inline-block;flex-shrink:0}
-    .cd{color:#999;font-size:10px;margin:-8px 0 12px 20px}
+    .cd{color:#999;font-size:10px;margin:-8px 0 12px 0;text-align:right}
     svg{width:100%;display:block}
     svg text{font-family:'Courier New',Courier,monospace}
-    .leg{display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+    .leg{display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap;direction:ltr}
     .leg-i{display:flex;align-items:center;gap:5px;color:#999;font-size:9px}
     .leg-b{width:12px;height:12px;border-radius:3px}
-    table{width:100%;border-collapse:collapse;font-size:11px}
-    th{padding:8px 6px;color:#999;font-weight:600;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #1e1e2a}
-    td{padding:10px 6px;border-bottom:1px solid #141420}
-    .bar-bg{background:#0a0a10;border-radius:6px;height:10px;overflow:hidden}
-    .bar-f{height:100%;border-radius:6px}
     .ft{text-align:center;color:#555;font-size:9px;margin-top:28px;line-height:1.5}
     @media(min-width:640px){
       .c{padding:28px 24px 48px}.hdr h1{font-size:22px}.hdr p{font-size:12px}
       .stats{grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}.sc-v{font-size:36px}.sc-l{font-size:10px}
       .card{padding:24px 20px 16px}.ct{font-size:15px}
-      table{font-size:13px}th{padding:10px 12px}td{padding:12px 12px}.bar-bg{height:12px}.ft{font-size:10px}
+      .ft{font-size:10px}
     }
   </style>
 </head>
@@ -46,91 +41,81 @@
   <div class="hdr">
     <div class="hdr-icon">🚀</div>
     <div>
-      <h1>Rocket & Missile Fire<br/>ירי רקטות וטילים</h1>
-      <p>Shomron · שומרון · 28/02/2026 – 12/03/2026</p>
+      <h1>ירי רקטות וטילים — שומרון</h1>
+      <p>28/02/2026 – 12/03/2026 · אזור שומרון</p>
     </div>
   </div>
   <div class="stats">
-    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">Rocket Alerts</div><div class="sc-v" style="color:#ef4444">78</div><div class="sc-s">6.0/day · 13 days</div></div>
-    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">Launch Detected</div><div class="sc-v" style="color:#f97316">74</div><div class="sc-s">5.7/day · 13 days</div></div>
-    <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">Peak Rockets</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">Sat 28/02</div></div>
-    <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">Peak Period</div><div class="sc-v" style="color:#7c3aed">1.8</div><div class="sc-s">12–17 avg</div></div>
+    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">80</div><div class="sc-s">6.2 ליום · 13 ימים</div></div>
+    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">76</div><div class="sc-s">5.8 ליום · 13 ימים</div></div>
+    <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">שיא יומי</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">שבת 28/02</div></div>
+    <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.8</div><div class="sc-s">צהריים 12–17</div></div>
 </div>
 
   <div class="card">
-    <div class="ct"><span class="dot" style="background:#ef4444"></span> Daily Rocket & Missile Alerts — ירי רקטות/טילים</div>
+    <div class="ct"><span class="dot" style="background:#ef4444"></span> ירי רקטות וטילים — לפי יום</div>
     <div id="ch1"></div>
     <div class="leg">
-      <div class="leg-i"><div class="leg-b" style="background:#ef4444"></div> Daily alerts</div>
-      <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/></svg> Trend</div>
+      <div class="leg-i"><div class="leg-b" style="background:#ef4444"></div> התרעות יומיות</div>
+      <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/></svg> מגמה</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="ct"><span class="dot" style="background:#f97316"></span> Daily Launch Detections — זיהוי שיגורים</div>
+    <div class="ct"><span class="dot" style="background:#f97316"></span> זיהוי שיגורים — לפי יום</div>
     <div id="ch_shigur"></div>
     <div class="leg">
-      <div class="leg-i"><div class="leg-b" style="background:#f97316"></div> Daily detections</div>
-      <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#22d3ee" stroke-width="2" stroke-dasharray="4,3"/></svg> Trend</div>
+      <div class="leg-i"><div class="leg-b" style="background:#f97316"></div> זיהויים יומיים</div>
+      <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#22d3ee" stroke-width="2" stroke-dasharray="4,3"/></svg> מגמה</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="ct"><span class="dot" style="background:#7c3aed"></span> Avg Rocket Alerts by Time of Day</div>
-    <p class="cd">Average per day across all 13 days</p>
+    <div class="ct"><span class="dot" style="background:#7c3aed"></span> ממוצע התרעות ירי לפי שעות היום</div>
+    <p class="cd">ממוצע יומי על פני 13 ימים</p>
     <div id="ch2"></div>
   </div>
 
-  <div class="card">
-    <div class="ct"><span class="dot" style="background:#ef4444"></span> Daily Breakdown — Rockets</div>
-    <div style="overflow-x:auto">
-      <table>
-        <thead><tr><th>Day</th><th>Date</th><th>Rockets</th><th>Intensity</th><th>%</th></tr></thead>
-        <tbody id="tb"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <p class="ft">Source: WhatsApp חדשות השומרון<br/>Security Updates · Ariel & Shomron Region</p>
+  <p class="ft">מקור: קבוצת וואטסאפ חדשות השומרון<br/>עדכוני ביטחון · אריאל והשומרון</p>
 </div>
 <script>
 var D=[
-  {d:"28/02",f:"28/02/2026",c:15,sc:5,day:"Sat"},
-  {d:"01/03",f:"01/03/2026",c:10,sc:9,day:"Sun"},
-  {d:"02/03",f:"02/03/2026",c:3,sc:3,day:"Mon"},
-  {d:"03/03",f:"03/03/2026",c:6,sc:6,day:"Tue"},
-  {d:"04/03",f:"04/03/2026",c:4,sc:3,day:"Wed"},
-  {d:"05/03",f:"05/03/2026",c:7,sc:7,day:"Thu"},
-  {d:"06/03",f:"06/03/2026",c:4,sc:5,day:"Fri"},
-  {d:"07/03",f:"07/03/2026",c:8,sc:9,day:"Sat"},
-  {d:"08/03",f:"08/03/2026",c:5,sc:5,day:"Sun"},
-  {d:"09/03",f:"09/03/2026",c:5,sc:7,day:"Mon"},
-  {d:"10/03",f:"10/03/2026",c:4,sc:6,day:"Tue"},
-  {d:"11/03",f:"11/03/2026",c:6,sc:6,day:"Wed"},
-  {d:"12/03",f:"12/03/2026",c:1,sc:3,day:"Thu"}
+  {d:"28/02",f:"28/02/2026",c:15,sc:5,day:"שבת"},
+  {d:"01/03",f:"01/03/2026",c:10,sc:9,day:"א׳"},
+  {d:"02/03",f:"02/03/2026",c:3,sc:3,day:"ב׳"},
+  {d:"03/03",f:"03/03/2026",c:6,sc:6,day:"ג׳"},
+  {d:"04/03",f:"04/03/2026",c:4,sc:3,day:"ד׳"},
+  {d:"05/03",f:"05/03/2026",c:7,sc:7,day:"ה׳"},
+  {d:"06/03",f:"06/03/2026",c:4,sc:5,day:"ו׳"},
+  {d:"07/03",f:"07/03/2026",c:8,sc:9,day:"שבת"},
+  {d:"08/03",f:"08/03/2026",c:5,sc:5,day:"א׳"},
+  {d:"09/03",f:"09/03/2026",c:5,sc:7,day:"ב׳"},
+  {d:"10/03",f:"10/03/2026",c:4,sc:6,day:"ג׳"},
+  {d:"11/03",f:"11/03/2026",c:6,sc:6,day:"ד׳"},
+  {d:"12/03",f:"12/03/2026",c:3,sc:5,day:"ה׳"}
 ];
-var RTOT=78,STOT=74,MXBAR=17,MC=15;
+var RTOT=80,STOT=76,MXBAR=17,MC=15;
 var SMXBAR=12;
-var RTR=[9.3,8.7,8.2,7.6,7.1,6.5,6.0,5.5,4.9,4.4,3.8,3.3,2.7];
-var STR=[5.9,5.9,5.8,5.8,5.8,5.7,5.7,5.7,5.6,5.6,5.6,5.5,5.5];
+var RTR=[9.1,8.6,8.1,7.6,7.1,6.6,6.2,5.7,5.2,4.7,4.2,3.7,3.3];
+var STR=[5.6,5.7,5.7,5.7,5.8,5.8,5.8,5.9,5.9,5.9,6.0,6.0,6.0];
 var SL=[
-  {l:"00–06",a:0.9},
-  {l:"06–12",a:1.2},
-  {l:"12–17",a:1.8},
-  {l:"17–20",a:0.8},
-  {l:"20–00",a:1.2}
+  {l:"00–06",lh:"לילה 00–06",a:0.9},
+  {l:"06–12",lh:"בוקר 06–12",a:1.2},
+  {l:"12–17",lh:"צהריים 12–17",a:1.8},
+  {l:"17–20",lh:"ערב 17–20",a:0.8},
+  {l:"20–00",lh:"לילה 20–00",a:1.3}
 ];
 var MXSL=2.3;
 var NDAYS=13;
 
 function gc(c){return c>=10?'#dc2626':c>=6?'#ef4444':c>=4?'#f97316':'#fbbf24';}
-function sc(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
+function sc2(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
 
-function drawBar(el,vals,labs,maxV,colFn,trend,tCol){
+function drawBar(el,vals,labs,maxV,colFn,trend,tCol,rotateLabels){
   var W=el.clientWidth;
   if(W<50)W=300;
   var mob=W<400;
-  var pL=mob?30:40,pR=10,pT=10,pB=mob?36:30;
+  var pL=mob?30:40,pR=10,pT=10,pB=mob?(rotateLabels?52:36):30;
   var cW=W-pL-pR,cH=mob?180:220;
   var H=cH+pT+pB;
   var bW=Math.min(cW/vals.length*0.6,mob?30:48);
@@ -154,8 +139,12 @@ function drawBar(el,vals,labs,maxV,colFn,trend,tCol){
     var vt=(v%1!==0)?v.toFixed(1):v;
     s+='<text x="'+(x+bW/2)+'" y="'+(y-5)+'" fill="'+col+'" font-size="'+(mob?9:11)+'" font-weight="800" text-anchor="middle">'+vt+'</text>';
     var lx=pL+i*gap+gap/2;
-    var ly=H-(mob?14:8);
-    s+='<text x="'+lx+'" y="'+ly+'" fill="#999" font-size="'+(mob?8:11)+'" text-anchor="middle">'+labs[i]+'</text>';
+    var ly=pT+cH+(mob?(rotateLabels?18:22):20);
+    if(mob && rotateLabels){
+      s+='<text x="'+lx+'" y="'+ly+'" fill="#999" font-size="'+(mob?8:11)+'" text-anchor="end" transform="rotate(-45,'+lx+','+ly+')">'+labs[i]+'</text>';
+    } else {
+      s+='<text x="'+lx+'" y="'+ly+'" fill="#999" font-size="'+(mob?8:11)+'" text-anchor="middle">'+labs[i]+'</text>';
+    }
   }
   if(trend){
     var pts=[];
@@ -170,35 +159,21 @@ function drawBar(el,vals,labs,maxV,colFn,trend,tCol){
   el.innerHTML=s;
 }
 
-var dVals=[],sVals=[],dLabs=[];
-for(var i=0;i<D.length;i++){dVals.push(D[i].c);sVals.push(D[i].sc);dLabs.push(D[i].d);}
+var dVals=[],sVals2=[],dLabs=[];
+for(var i=0;i<D.length;i++){dVals.push(D[i].c);sVals2.push(D[i].sc);dLabs.push(D[i].d);}
 
-drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80');
-drawBar(document.getElementById('ch_shigur'),sVals,dLabs,SMXBAR,sc,STR,'#22d3ee');
+var isMob=window.innerWidth<500;
+drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80',true);
+drawBar(document.getElementById('ch_shigur'),sVals2,dLabs,SMXBAR,sc2,STR,'#22d3ee',true);
 
 var slVals=[],slLabs=[];
-for(var i=0;i<SL.length;i++){slVals.push(SL[i].a);slLabs.push(SL[i].l);}
-drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null);
-
-var tb=document.getElementById('tb');
-for(var i=0;i<D.length;i++){
-  var d=D[i];
-  var pct=((d.c/RTOT)*100).toFixed(1);
-  var bw=(d.c/MC)*100;
-  var col=gc(d.c);
-  var r=document.createElement('tr');
-  r.innerHTML='<td style="color:#aaa">'+d.day+'</td>'
-    +'<td style="color:#ddd;font-weight:700">'+d.f+'</td>'
-    +'<td style="color:'+col+';font-weight:900;font-size:16px">'+d.c+'</td>'
-    +'<td style="width:28%"><div class="bar-bg"><div class="bar-f" style="width:'+bw+'%;background:linear-gradient(90deg,'+col+'aa,'+col+')"></div></div></td>'
-    +'<td style="color:#999">'+pct+'%</td>';
-  tb.appendChild(r);
-}
+for(var i=0;i<SL.length;i++){slVals.push(SL[i].a);slLabs.push(SL[i].lh);}
+drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null,false);
 
 window.addEventListener('resize',function(){
-  drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80');
-  drawBar(document.getElementById('ch_shigur'),sVals,dLabs,SMXBAR,sc,STR,'#22d3ee');
-  drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null);
+  drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80',true);
+  drawBar(document.getElementById('ch_shigur'),sVals2,dLabs,SMXBAR,sc2,STR,'#22d3ee',true);
+  drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null,false);
 });
 </script>
 </body>
