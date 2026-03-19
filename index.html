@@ -42,14 +42,14 @@
     <div class="hdr-icon">🚀</div>
     <div>
       <h1>ירי רקטות וטילים — שומרון</h1>
-      <p>28/02/2026 – 17/03/2026 · אזור שומרון</p>
+      <p>28/02/2026 – 19/03/2026 · אזור שומרון</p>
     </div>
   </div>
   <div class="stats">
-    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">96</div><div class="sc-s">5.3 ליום · 18 ימים</div></div>
-    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">94</div><div class="sc-s">5.2 ליום · 18 ימים</div></div>
+    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">106</div><div class="sc-s">5.3 ליום · 20 ימים</div></div>
+    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">111</div><div class="sc-s">5.5 ליום · 20 ימים</div></div>
     <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">שיא יומי</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">שבת ‎28/02</div></div>
-    <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.6</div><div class="sc-s">צהריים ‎12–17</div></div>
+    <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.5</div><div class="sc-s">צהריים ‎12–17</div></div>
 </div>
 
   <div class="card">
@@ -72,7 +72,7 @@
 
   <div class="card">
     <div class="ct"><span class="dot" style="background:#7c3aed"></span> ממוצע התרעות ירי לפי שעות היום</div>
-    <p class="cd">ממוצע יומי על פני 18 ימים</p>
+    <p class="cd">ממוצע יומי על פני 20 ימים</p>
     <div id="ch2"></div>
   </div>
 
@@ -97,21 +97,23 @@ var D=[
   {d:"‎14/03",f:"14/03/2026",c:2,sc:4,day:"שבת"},
   {d:"‎15/03",f:"15/03/2026",c:5,sc:5,day:"א׳"},
   {d:"‎16/03",f:"16/03/2026",c:4,sc:4,day:"ב׳"},
-  {d:"‎17/03",f:"17/03/2026",c:1,sc:1,day:"ג׳"}
+  {d:"‎17/03",f:"17/03/2026",c:3,sc:5,day:"ג׳"},
+  {d:"‎18/03",f:"18/03/2026",c:5,sc:8,day:"ד׳"},
+  {d:"‎19/03",f:"19/03/2026",c:3,sc:5,day:"ה׳"}
 ];
-var RTOT=96,STOT=94,MXBAR=17,MC=15;
+var RTOT=106,STOT=111,MXBAR=17,MC=15;
 var SMXBAR=12;
-var RTR=[8.6,8.2,7.9,7.5,7.1,6.7,6.3,5.9,5.5,5.1,4.8,4.4,4.0,3.6,3.2,2.8,2.4,2.0];
-var STR=[6.5,6.4,6.2,6.1,5.9,5.7,5.6,5.4,5.3,5.1,5.0,4.8,4.7,4.5,4.4,4.2,4.1,3.9];
+var RTR=[8.1,7.8,7.5,7.2,6.9,6.6,6.3,6.0,5.7,5.4,5.2,4.9,4.6,4.3,4.0,3.7,3.4,3.1,2.8,2.5];
+var STR=[5.9,5.8,5.8,5.8,5.7,5.7,5.7,5.6,5.6,5.6,5.5,5.5,5.5,5.4,5.4,5.4,5.3,5.3,5.3,5.2];
 var SL=[
   {l:"00–06",lh:"לילה ‎00–06",a:0.9},
-  {l:"06–12",lh:"בוקר ‎06–12",a:1.0},
-  {l:"12–17",lh:"צהריים ‎12–17",a:1.6},
+  {l:"06–12",lh:"בוקר ‎06–12",a:1.1},
+  {l:"12–17",lh:"צהריים ‎12–17",a:1.5},
   {l:"17–20",lh:"ערב ‎17–20",a:0.7},
-  {l:"20–00",lh:"לילה ‎20–00",a:1.2}
+  {l:"20–00",lh:"לילה ‎20–00",a:1.1}
 ];
-var MXSL=2.1;
-var NDAYS=18;
+var MXSL=2.0;
+var NDAYS=20;
 
 function gc(c){return c>=10?'#dc2626':c>=6?'#ef4444':c>=4?'#f97316':'#fbbf24';}
 function sc2(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
