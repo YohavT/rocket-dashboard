@@ -42,18 +42,19 @@
     <div class="hdr-icon">🚀</div>
     <div>
       <h1>ירי רקטות וטילים — שומרון</h1>
-      <p>28/02/2026 – 19/03/2026 · אזור שומרון</p>
+      <p>28/02/2026 – 22/03/2026 · אזור שומרון</p>
     </div>
   </div>
   <div class="stats">
-    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">106</div><div class="sc-s">5.3 ליום · 20 ימים</div></div>
-    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">111</div><div class="sc-s">5.5 ליום · 20 ימים</div></div>
+    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">116</div><div class="sc-s">5.0 ליום · 23 ימים</div></div>
+    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">124</div><div class="sc-s">5.4 ליום · 23 ימים</div></div>
     <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">שיא יומי</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">שבת ‎28/02</div></div>
-    <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.5</div><div class="sc-s">צהריים ‎12–17</div></div>
+    <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.4</div><div class="sc-s">צהריים ‎12–17</div></div>
 </div>
 
   <div class="card">
     <div class="ct"><span class="dot" style="background:#ef4444"></span> ירי רקטות וטילים — לפי יום</div>
+    <p class="cd">ללא 28/02 ו-01/03 (ימי פתיחת המבצע)</p>
     <div id="ch1"></div>
     <div class="leg">
       <div class="leg-i"><div class="leg-b" style="background:#ef4444"></div> התרעות יומיות</div>
@@ -63,6 +64,7 @@
 
   <div class="card">
     <div class="ct"><span class="dot" style="background:#f97316"></span> זיהוי שיגורים — לפי יום</div>
+    <p class="cd">ללא 28/02 ו-01/03 (ימי פתיחת המבצע)</p>
     <div id="ch_shigur"></div>
     <div class="leg">
       <div class="leg-i"><div class="leg-b" style="background:#f97316"></div> זיהויים יומיים</div>
@@ -72,7 +74,7 @@
 
   <div class="card">
     <div class="ct"><span class="dot" style="background:#7c3aed"></span> ממוצע התרעות ירי לפי שעות היום</div>
-    <p class="cd">ממוצע יומי על פני 20 ימים</p>
+    <p class="cd">ממוצע יומי על פני 23 ימים</p>
     <div id="ch2"></div>
   </div>
 
@@ -80,8 +82,6 @@
 </div>
 <script>
 var D=[
-  {d:"‎28/02",f:"28/02/2026",c:15,sc:5,day:"שבת"},
-  {d:"‎01/03",f:"01/03/2026",c:10,sc:9,day:"א׳"},
   {d:"‎02/03",f:"02/03/2026",c:3,sc:3,day:"ב׳"},
   {d:"‎03/03",f:"03/03/2026",c:6,sc:6,day:"ג׳"},
   {d:"‎04/03",f:"04/03/2026",c:4,sc:3,day:"ד׳"},
@@ -99,21 +99,24 @@ var D=[
   {d:"‎16/03",f:"16/03/2026",c:4,sc:4,day:"ב׳"},
   {d:"‎17/03",f:"17/03/2026",c:3,sc:5,day:"ג׳"},
   {d:"‎18/03",f:"18/03/2026",c:5,sc:8,day:"ד׳"},
-  {d:"‎19/03",f:"19/03/2026",c:3,sc:5,day:"ה׳"}
+  {d:"‎19/03",f:"19/03/2026",c:3,sc:8,day:"ה׳"},
+  {d:"‎20/03",f:"20/03/2026",c:7,sc:6,day:"ו׳"},
+  {d:"‎21/03",f:"21/03/2026",c:1,sc:1,day:"שבת"},
+  {d:"‎22/03",f:"22/03/2026",c:2,sc:3,day:"א׳"}
 ];
-var RTOT=106,STOT=111,MXBAR=17,MC=15;
+var RTOT=116,STOT=124,MXBAR=12,MC=15;
 var SMXBAR=12;
-var RTR=[8.1,7.8,7.5,7.2,6.9,6.6,6.3,6.0,5.7,5.4,5.2,4.9,4.6,4.3,4.0,3.7,3.4,3.1,2.8,2.5];
-var STR=[5.9,5.8,5.8,5.8,5.7,5.7,5.7,5.6,5.6,5.6,5.5,5.5,5.5,5.4,5.4,5.4,5.3,5.3,5.3,5.2];
+var RTR=[5.5,5.4,5.2,5.1,5.0,4.9,4.8,4.7,4.6,4.4,4.3,4.2,4.1,4.0,3.9,3.8,3.6,3.5,3.4,3.3,3.2];
+var STR=[5.7,5.6,5.6,5.5,5.5,5.4,5.4,5.4,5.3,5.3,5.2,5.2,5.2,5.1,5.1,5.0,5.0,4.9,4.9,4.9,4.8];
 var SL=[
-  {l:"00–06",lh:"לילה ‎00–06",a:0.9},
+  {l:"00–06",lh:"לילה ‎00–06",a:0.8},
   {l:"06–12",lh:"בוקר ‎06–12",a:1.1},
-  {l:"12–17",lh:"צהריים ‎12–17",a:1.5},
+  {l:"12–17",lh:"צהריים ‎12–17",a:1.4},
   {l:"17–20",lh:"ערב ‎17–20",a:0.7},
-  {l:"20–00",lh:"לילה ‎20–00",a:1.1}
+  {l:"20–00",lh:"לילה ‎20–00",a:1.0}
 ];
-var MXSL=2.0;
-var NDAYS=20;
+var MXSL=1.9;
+var NDAYS=23;
 
 function gc(c){return c>=10?'#dc2626':c>=6?'#ef4444':c>=4?'#f97316':'#fbbf24';}
 function sc2(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
