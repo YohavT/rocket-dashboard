@@ -42,12 +42,12 @@
     <div class="hdr-icon">🚀</div>
     <div>
       <h1>ירי רקטות וטילים — שומרון</h1>
-      <p>28/02/2026 – 22/03/2026 · אזור שומרון</p>
+      <p>28/02/2026 – 23/03/2026 · אזור שומרון</p>
     </div>
   </div>
   <div class="stats">
-    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">116</div><div class="sc-s">5.0 ליום · 23 ימים</div></div>
-    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">124</div><div class="sc-s">5.4 ליום · 23 ימים</div></div>
+    <div class="sc" style="border:1px solid #ef444422"><div class="sc-l">התרעות ירי</div><div class="sc-v" style="color:#ef4444">119</div><div class="sc-s">5.0 ליום · 24 ימים</div></div>
+    <div class="sc" style="border:1px solid #f9731622"><div class="sc-l">זיהוי שיגורים</div><div class="sc-v" style="color:#f97316">127</div><div class="sc-s">5.3 ליום · 24 ימים</div></div>
     <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">שיא יומי</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">שבת ‎28/02</div></div>
     <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.4</div><div class="sc-s">צהריים ‎12–17</div></div>
 </div>
@@ -74,7 +74,7 @@
 
   <div class="card">
     <div class="ct"><span class="dot" style="background:#7c3aed"></span> ממוצע התרעות ירי לפי שעות היום</div>
-    <p class="cd">ממוצע יומי על פני 23 ימים</p>
+    <p class="cd">ממוצע יומי על פני 24 ימים</p>
     <div id="ch2"></div>
   </div>
 
@@ -102,21 +102,22 @@ var D=[
   {d:"‎19/03",f:"19/03/2026",c:3,sc:8,day:"ה׳"},
   {d:"‎20/03",f:"20/03/2026",c:7,sc:6,day:"ו׳"},
   {d:"‎21/03",f:"21/03/2026",c:1,sc:1,day:"שבת"},
-  {d:"‎22/03",f:"22/03/2026",c:2,sc:3,day:"א׳"}
+  {d:"‎22/03",f:"22/03/2026",c:4,sc:6,day:"א׳"},
+  {d:"‎23/03",f:"23/03/2026",c:1,sc:0,day:"ב׳"}
 ];
-var RTOT=116,STOT=124,MXBAR=12,MC=15;
+var RTOT=119,STOT=127,MXBAR=12,MC=15;
 var SMXBAR=12;
-var RTR=[5.5,5.4,5.2,5.1,5.0,4.9,4.8,4.7,4.6,4.4,4.3,4.2,4.1,4.0,3.9,3.8,3.6,3.5,3.4,3.3,3.2];
-var STR=[5.7,5.6,5.6,5.5,5.5,5.4,5.4,5.4,5.3,5.3,5.2,5.2,5.2,5.1,5.1,5.0,5.0,4.9,4.9,4.9,4.8];
+var RTR=[5.5,5.4,5.3,5.2,5.0,4.9,4.8,4.7,4.6,4.4,4.3,4.2,4.1,4.0,3.9,3.7,3.6,3.5,3.4,3.3,3.2,3.0];
+var STR=[5.8,5.8,5.7,5.6,5.6,5.5,5.4,5.4,5.3,5.2,5.2,5.1,5.0,5.0,4.9,4.8,4.8,4.7,4.6,4.6,4.5,4.4];
 var SL=[
   {l:"00–06",lh:"לילה ‎00–06",a:0.8},
   {l:"06–12",lh:"בוקר ‎06–12",a:1.1},
   {l:"12–17",lh:"צהריים ‎12–17",a:1.4},
-  {l:"17–20",lh:"ערב ‎17–20",a:0.7},
+  {l:"17–20",lh:"ערב ‎17–20",a:0.6},
   {l:"20–00",lh:"לילה ‎20–00",a:1.0}
 ];
 var MXSL=1.9;
-var NDAYS=23;
+var NDAYS=24;
 
 function gc(c){return c>=10?'#dc2626':c>=6?'#ef4444':c>=4?'#f97316':'#fbbf24';}
 function sc2(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
