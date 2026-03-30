@@ -51,7 +51,7 @@
     <div class="sc" style="border:1px solid #dc262622"><div class="sc-l">שיא יומי</div><div class="sc-v" style="color:#dc2626">15</div><div class="sc-s">שבת ‎28/02</div></div>
     <div class="sc" style="border:1px solid #7c3aed22"><div class="sc-l">שיא לפי שעות</div><div class="sc-v" style="color:#7c3aed">1.3</div><div class="sc-s">צהריים ‎12–17</div></div>
 </div>
- 
+
   <div class="card">
     <div class="ct"><span class="dot" style="background:#ef4444"></span> ירי רקטות וטילים — לפי יום</div>
     <p class="cd">ללא 28/02 ו-01/03 (ימי פתיחת המבצע)</p>
@@ -61,7 +61,7 @@
       <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/></svg> מגמה</div>
     </div>
   </div>
- 
+
   <div class="card">
     <div class="ct"><span class="dot" style="background:#f97316"></span> זיהוי שיגורים — לפי יום</div>
     <p class="cd">ללא 28/02 ו-01/03 (ימי פתיחת המבצע)</p>
@@ -71,13 +71,13 @@
       <div class="leg-i"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#22d3ee" stroke-width="2" stroke-dasharray="4,3"/></svg> מגמה</div>
     </div>
   </div>
- 
+
   <div class="card">
     <div class="ct"><span class="dot" style="background:#7c3aed"></span> ממוצע התרעות ירי לפי שעות היום</div>
     <p class="cd">ממוצע יומי על פני 30 ימים</p>
     <div id="ch2"></div>
   </div>
- 
+
   <p class="ft">מקור: קבוצת וואטסאפ חדשות השומרון<br/>עדכוני ביטחון · אריאל והשומרון</p>
 </div>
 <script>
@@ -124,15 +124,15 @@ var SL=[
 ];
 var MXSL=1.8;
 var NDAYS=30;
- 
+
 function gc(c){return c>=10?'#dc2626':c>=6?'#ef4444':c>=4?'#f97316':'#fbbf24';}
 function sc2(c){return c>=8?'#ea580c':c>=5?'#f97316':'#fb923c';}
- 
+
 function drawBar(el,vals,labs,maxV,colFn,trend,tCol,rotateLabels){
   var W=el.clientWidth;
   if(W<50)W=300;
   var mob=W<400;
-  var pL=mob?30:40,pR=10,pT=10,pB=mob?(rotateLabels?52:36):30;
+  var pL=mob?30:40,pR=10,pT=10,pB=rotateLabels?55:(mob?36:30);
   var cW=W-pL-pR,cH=mob?180:220;
   var H=cH+pT+pB;
   var bW=Math.min(cW/vals.length*0.6,mob?30:48);
@@ -156,9 +156,9 @@ function drawBar(el,vals,labs,maxV,colFn,trend,tCol,rotateLabels){
     var vt=(v%1!==0)?v.toFixed(1):v;
     s+='<text x="'+(x+bW/2)+'" y="'+(y-5)+'" fill="'+col+'" font-size="'+(mob?9:11)+'" font-weight="800" text-anchor="middle">'+vt+'</text>';
     var lx=pL+i*gap+gap/2;
-    var ly=pT+cH+(mob?(rotateLabels?18:22):20);
-    if(mob && rotateLabels){
-      s+='<text x="'+lx+'" y="'+ly+'" fill="#999" font-size="'+(mob?8:11)+'" text-anchor="end" transform="rotate(-45,'+lx+','+ly+')">'+labs[i]+'</text>';
+    var ly=pT+cH+18;
+    if(rotateLabels){
+      s+='<text x="'+lx+'" y="'+ly+'" fill="#999" font-size="'+(mob?7:9)+'" text-anchor="end" transform="rotate(-50,'+lx+','+ly+')">'+labs[i]+'</text>';
     } else {
       s+='<text x="'+lx+'" y="'+ly+'" fill="#999" font-size="'+(mob?8:11)+'" text-anchor="middle">'+labs[i]+'</text>';
     }
@@ -175,18 +175,18 @@ function drawBar(el,vals,labs,maxV,colFn,trend,tCol,rotateLabels){
   s+='</svg>';
   el.innerHTML=s;
 }
- 
+
 var dVals=[],sVals2=[],dLabs=[];
 for(var i=0;i<D.length;i++){dVals.push(D[i].c);sVals2.push(D[i].sc);dLabs.push(D[i].d);}
- 
+
 var isMob=window.innerWidth<500;
 drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80',true);
 drawBar(document.getElementById('ch_shigur'),sVals2,dLabs,SMXBAR,sc2,STR,'#22d3ee',true);
- 
+
 var slVals=[],slLabs=[];
 for(var i=0;i<SL.length;i++){slVals.push(SL[i].a);slLabs.push(SL[i].lh);}
 drawBar(document.getElementById('ch2'),slVals,slLabs,MXSL,function(v){return v>=1.5?'#7c3aed':v>=1.0?'#8b5cf6':'#a78bfa';},null,null,false);
- 
+
 window.addEventListener('resize',function(){
   drawBar(document.getElementById('ch1'),dVals,dLabs,MXBAR,gc,RTR,'#4ade80',true);
   drawBar(document.getElementById('ch_shigur'),sVals2,dLabs,SMXBAR,sc2,STR,'#22d3ee',true);
@@ -195,19 +195,3 @@ window.addEventListener('resize',function(){
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
